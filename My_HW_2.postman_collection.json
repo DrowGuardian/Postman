@@ -13,10 +13,11 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"//  Статус код 200\r",
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							"\r",
+							"// Проверить, что в body приходит правильный string.\r",
 							"pm.test(\"String is correct\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"This is the first responce from server!\");\r",
 							"});"
@@ -29,23 +30,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}:{{port}}/first?name=Vera&age=25",
+					"raw": "{{url}}:{{port}}/first",
 					"host": [
 						"{{url}}"
 					],
 					"port": "{{port}}",
 					"path": [
 						"first"
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "Vera"
-						},
-						{
-							"key": "age",
-							"value": "25"
-						}
 					]
 				}
 			},
@@ -268,10 +259,9 @@
 							"// Передать в окружение переменную age\r",
 							"pm.environment.set(\"age\", +reqData.age);\r",
 							"// Передать в окружение переменную salary\r",
-							"pm.environment.set(\"salary\", reqData.salary);\r",
+							"pm.environment.set(\"salary\", +reqData.salary);\r",
 							"// Написать цикл который выведет в консоль по порядку элементы списка из параметра salary.\r",
-							"let item_salary = jsonData.salary.length;\r",
-							"for (let i = 0; i < item_salary; i++) {\r",
+							"for (let i = 0; i < jsonData.salary.length; i++) {\r",
 							"    console.log(jsonData.salary[i]);\r",
 							"};"
 						],
@@ -381,7 +371,9 @@
 							"     pm.expect(jsonData.person.u_salary_5_years).to.eql(reqData.salary * 4.2);\r",
 							"});\r",
 							"// ***Написать цикл который выведет в консоль по порядку элементы списка из параметра person.\r",
-							"\r",
+							"for(let key in jsonData.person){\r",
+							"console.log(jsonData.person[key])\r",
+							"};\r",
 							""
 						],
 						"type": "text/javascript"
